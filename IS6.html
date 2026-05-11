@@ -1,34 +1,19 @@
-<!doctype html>
 <html>
   <head>
     <title>Diffie-Hellman</title>
   </head>
   <body>
     <h3>Diffie-Hellman Key Exchange</h3>
-
     <p>Prime P: <input id="p" value="23" /></p>
     <p>Generator G: <input id="g" value="5" /></p>
-
-    <p>Alice private key (a): <input id="a" value="6" /></p>
-    <p>Bob private key (b): <input id="b" value="15" /></p>
-
+    <p>Alice's Private key: <input id="a" value="6" /></p>
+    <p>Bob's Private key: <input id="b" value="15" /></p>
     <button onclick="run()">Generate Keys</button>
-
     <pre id="out"></pre>
-
     <script>
       function modExp(b, e, m) {
-        let r = 1;
-        b %= m;
-
-        while (e > 0) {
-          if (e % 2) r = (r * b) % m;
-          b = (b * b) % m;
-          e = Math.floor(e / 2);
-        }
-        return r;
+        return b ** e % m;
       }
-
       function run() {
         let P = +document.getElementById("p").value;
         let G = +document.getElementById("g").value;
