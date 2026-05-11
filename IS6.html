@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Diffie-Hellman</title>
+  </head>
+  <body>
+    <h3>Diffie-Hellman Key Exchange</h3>
+
+    <p>Prime P: <input id="p" value="23" /></p>
+    <p>Generator G: <input id="g" value="5" /></p>
+
+    <p>Alice private key (a): <input id="a" value="6" /></p>
+    <p>Bob private key (b): <input id="b" value="15" /></p>
+
+    <button onclick="run()">Generate Keys</button>
+
+    <pre id="out"></pre>
+
+    <script>
+      function modExp(b, e, m) {
+        let r = 1;
+        b %= m;
+
+        while (e > 0) {
+          if (e % 2) r = (r * b) % m;
+          b = (b * b) % m;
+          e = Math.floor(e / 2);
+        }
+        return r;
+      }
+
+      function run() {
+        let P = +document.getElementById("p").value;
+        let G = +document.getElementById("g").value;
+        let a = +document.getElementById("a").value;
+        let b = +document.getElementById("b").value;
+
+        let A = modExp(G, a, P);
+        let B = modExp(G, b, P);
+
+        let Sa = modExp(B, a, P);
+        let Sb = modExp(A, b, P);
+
+        document.getElementById("out").innerText = `Public P = ${P}, G = ${G}
+
+        Alice private = ${a}
+        Bob private = ${b}
+
+        Alice public (A) = ${A}
+        Bob public (B) = ${B}
+
+        Alice secret = ${Sa}
+        Bob secret = ${Sb}
+
+        Match: ${Sa === Sb}`;
+      }
+    </script>
+  </body>
+</html>
